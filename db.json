@@ -1,0 +1,76 @@
+{
+  "tasks": [
+    {
+      "title": "Design system tokens",
+      "description": "Set up color palette, typography, and spacing scales",
+      "priority": "high",
+      "status": "done",
+      "id": "1",
+      "createdAt": 1772312433977
+    },
+    {
+      "title": "Dark mode support",
+      "description": "Add theme toggle and CSS variables switching",
+      "priority": "medium",
+      "status": "in-review",
+      "id": "2",
+      "createdAt": 1772312433977
+    },
+    {
+      "title": "Dashboard layout",
+      "description": "Build responsive sidebar and main content area",
+      "priority": "medium",
+      "status": "in-review",
+      "id": "3",
+      "createdAt": 1772312433977
+    },
+    {
+      "title": "Authentication flow",
+      "description": "Implement login, signup, and password reset screens",
+      "priority": "high",
+      "status": "in-progress",
+      "id": "4",
+      "createdAt": 1772312433977
+    },
+    {
+      "title": "File upload content",
+      "description": "Drag and drop file upload with preview",
+      "priority": "medium",
+      "status": "in-progress",
+      "id": "5",
+      "createdAt": 1772312433977
+    },
+    {
+      "title": "API integration",
+      "description": "Connect frontend to REST API endpoints",
+      "priority": "high",
+      "status": "to-do",
+      "id": "6",
+      "createdAt": 1772312433977
+    },
+    {
+      "title": "Unit tests",
+      "description": "Write tests for utility functions and hooks",
+      "priority": "low",
+      "status": "to-do",
+      "id": "7",
+      "createdAt": 1772312433977
+    },
+    {
+      "title": "Performance audit",
+      "description": "Lighthouse scores and bundle analysis",
+      "priority": "low",
+      "status": "to-do",
+      "id": "8",
+      "createdAt": 1772312433977
+    },
+    {
+      "title": "Notification system",
+      "description": "Toast notifications and in-app alerts",
+      "priority": "low",
+      "status": "to-do",
+      "id": "9",
+      "createdAt": 1772312433977
+    }
+  ]
+}

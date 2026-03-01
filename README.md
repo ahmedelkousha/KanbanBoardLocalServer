@@ -1,73 +1,155 @@
-# React + TypeScript + Vite
+# Kanban Board
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern, responsive Kanban board application built with React, TypeScript, Vite, and Tailwind CSS.
 
-Currently, two official plugins are available:
+## Prerequisites
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Node.js** 16.0.0 or higher
+- **npm** 7.0.0 or higher (or yarn/pnpm)
 
-## React Compiler
+## Installation
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### 1. Install Dependencies
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+This will install all required packages including React, TypeScript, Vite, UI components, and the mock API server.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### 2. Configure TypeScript Path Alias (if needed)
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+The project uses TypeScript path aliases (e.g., `@/` for the `src/` directory). The configuration is already set up in `tsconfig.app.json`. If you encounter import errors, ensure the path alias is properly configured:
+
+```json
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  }
+}
 ```
+
+## Development
+
+### Start Development Server
+
+```bash
+npm run dev
+```
+
+The application will start at `http://localhost:8080` with hot module reloading (HMR).
+
+### Run Mock API Server (in a separate terminal)
+
+```bash
+npm run mock
+```
+
+This starts `json-server` on port 4000, which simulates a backend API. It watches `db.json` and exposes REST endpoints at `http://localhost:4000/tasks`.
+
+**Note:** You can customize the API URL in `.env` file:
+
+```env
+VITE_MOCK_API_URL=http://localhost:4000
+```
+
+Variables prefixed with `VITE_` are automatically injected by Vite.
+
+### Run Both Servers Concurrently
+
+Open two terminals and run:
+
+- Terminal 1: `npm run dev`
+- Terminal 2: `npm run mock`
+
+## Building for Production
+
+```bash
+npm run build
+```
+
+This creates an optimized production build in the `dist/` directory.
+
+### Preview Production Build
+
+```bash
+npm run preview
+```
+
+## Available Scripts
+
+| Script            | Description                             |
+| ----------------- | --------------------------------------- |
+| `npm run dev`     | Start the development server with HMR   |
+| `npm run build`   | Build the application for production    |
+| `npm run preview` | Preview the production build locally    |
+| `npm run mock`    | Start the mock API server (json-server) |
+| `npm run lint`    | Run ESLint to check code quality        |
+
+## Project Structure
+
+```
+src/
+├── components/
+│   ├── kanban/           # Kanban board components
+│   │   ├── AddTaskDialog.tsx
+│   │   ├── EditTaskDialog.tsx
+│   │   ├── KanbanColumn.tsx
+│   │   └── TaskCard.tsx
+│   └── ui/               # Reusable UI components
+├── hooks/
+│   ├── use-tasks.ts      # Tasks data management hook
+│   └── use-toast.ts      # Toast notifications hook
+├── lib/
+│   ├── kanban-types.ts   # TypeScript type definitions
+│   ├── mock-api.ts       # Mock API client
+│   └── utils.ts          # Utility functions
+├── pages/
+│   ├── Index.tsx         # Main kanban page
+│   └── NotFound.tsx      # 404 page
+├── App.tsx               # Root component
+└── main.tsx              # Application entry point
+```
+
+## Technology Stack
+
+- **Frontend Framework:** React 18+ with TypeScript
+- **Build Tool:** Vite
+- **Styling:** Tailwind CSS with PostCSS
+- **UI Components:** shadcn/ui (Radix UI)
+- **State Management:** React Hooks
+- **Mock Backend:** json-server
+- **Code Quality:** ESLint
+
+## Features
+
+- ✅ Create, read, update, and delete tasks
+- ✅ Organize tasks by status (Todo, In Progress, Done)
+- ✅ Set task priorities (Low, Medium, High)
+- ✅ Responsive design for all screen sizes
+- ✅ Real-time synchronization with mock API
+- ✅ Smooth animations and transitions
+
+## Troubleshooting
+
+### Import Errors
+
+If you see errors like "Cannot find module '@/...'", ensure `tsconfig.app.json` includes the path alias configuration (see Installation step 2).
+
+### Port Already in Use
+
+- Dev server default: `8080` (configurable in `vite.config.ts`)
+- Mock API default: `4000` (configurable when running `npm run mock`)
+
+If ports are in use, you can change them or stop conflicting processes.
+
+### Module Not Found Errors
+
+Run `npm install` again to ensure all dependencies are properly installed.
+
+## Contributing
+
+Feel free to fork and submit pull requests for improvements!

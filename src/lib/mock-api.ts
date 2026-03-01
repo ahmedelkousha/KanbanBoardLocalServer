@@ -1,92 +1,53 @@
 import { Task, Priority, Status } from "./kanban-types";
 
-let nextId = 1;
-const uid = () => String(nextId++);
+// simple wrapper around json-server REST endpoints
+const API_URL = import.meta.env.VITE_MOCK_API_URL || "http://localhost:4000";
 
-const seed: Omit<Task, "id" | "createdAt">[] = [
-  {
-    title: "Design system tokens",
-    description: "Set up color palette, typography, and spacing scales",
-    priority: "high",
-    status: "done",
-  },
-  {
-    title: "Dark mode support",
-    description: "Add theme toggle and CSS variables switching",
-    priority: "medium",
-    status: "in-review",
-  },
-  {
-    title: "Dashboard layout",
-    description: "Build responsive sidebar and main content area",
-    priority: "medium",
-    status: "in-review",
-  },
-  {
-    title: "Authentication flow",
-    description: "Implement login, signup, and password reset screens",
-    priority: "high",
-    status: "in-progress",
-  },
-  {
-    title: "File upload content",
-    description: "Drag and drop file upload with preview",
-    priority: "medium",
-    status: "in-progress",
-  },
-  {
-    title: "API integration",
-    description: "Connect frontend to REST API endpoints",
-    priority: "high",
-    status: "to-do",
-  },
-  {
-    title: "Unit tests",
-    description: "Write tests for utility functions and hooks",
-    priority: "low",
-    status: "to-do",
-  },
-  {
-    title: "Performance audit",
-    description: "Lighthouse scores and bundle analysis",
-    priority: "low",
-    status: "to-do",
-  },
-  {
-    title: "Notification system",
-    description: "Toast notifications and in-app alerts",
-    priority: "low",
-    status: "to-do",
-  },
-];
-
-let tasks: Task[] = seed.map((t) => ({ ...t, id: uid(), createdAt: Date.now() }));
-
-const delay = (ms = 100) => new Promise((r) => setTimeout(r, ms));
+function handleResponse(res: Response) {
+  if (!res.ok) {
+    return res.text().then((text) => {
+      throw new Error(text || res.statusText);
+    });
+  }
+  return res.json();
+}
 
 export const api = {
   getTasks: async (): Promise<Task[]> => {
-    await delay();
-    return [...tasks];
+    const res = await fetch(`${API_URL}/tasks`);
+    return handleResponse(res);
   },
 
-  createTask: async (data: { title: string; description: string; priority: Priority; status: Status }): Promise<Task> => {
-    await delay();
-    const task: Task = { ...data, id: uid(), createdAt: Date.now() };
-    tasks.push(task);
-    return task;
+  createTask: async (data: {
+    title: string;
+    description: string;
+    priority: Priority;
+    status: Status;
+  }): Promise<Task> => {
+    const res = await fetch(`${API_URL}/tasks`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+    return handleResponse(res);
   },
 
-  updateTask: async (id: string, data: Partial<Omit<Task, "id" | "createdAt">>): Promise<Task> => {
-    await delay();
-    const idx = tasks.findIndex((t) => t.id === id);
-    if (idx === -1) throw new Error("Task not found");
-    tasks[idx] = { ...tasks[idx], ...data };
-    return tasks[idx];
+  updateTask: async (
+    id: string,
+    data: Partial<Omit<Task, "id" | "createdAt">>,
+  ): Promise<Task> => {
+    const res = await fetch(`${API_URL}/tasks/${id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+    return handleResponse(res);
   },
 
   deleteTask: async (id: string): Promise<void> => {
-    await delay();
-    tasks = tasks.filter((t) => t.id !== id);
+    const res = await fetch(`${API_URL}/tasks/${id}`, { method: "DELETE" });
+    if (!res.ok) {
+      throw new Error("Failed to delete task");
+    }
   },
 };
