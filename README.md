@@ -17,6 +17,8 @@ npm install
 
 This will install all required packages including React, TypeScript, Vite, UI components, and the mock API server.
 
+Note: Axios is included in the project dependencies and is used as the HTTP client in the frontend API client (`src/lib/mock-api.ts`). No extra installation step is required beyond `npm install`.
+
 ### 2. Configure TypeScript Path Alias (if needed)
 
 The project uses TypeScript path aliases (e.g., `@/` for the `src/` directory). The configuration is already set up in `tsconfig.app.json`. If you encounter import errors, ensure the path alias is properly configured:
@@ -65,6 +67,12 @@ Open two terminals and run:
 - Terminal 1: `npm run dev`
 - Terminal 2: `npm run mock`
 
+Alternatively, run both with a single command (starts the Vite dev server and the mock API concurrently):
+
+```bash
+npm run dev:all
+```
+
 ## Building for Production
 
 ```bash
@@ -88,6 +96,7 @@ npm run preview
 | `npm run preview` | Preview the production build locally    |
 | `npm run mock`    | Start the mock API server (json-server) |
 | `npm run lint`    | Run ESLint to check code quality        |
+| `npm run dev:all` | Start dev server and mock API together  |
 
 ## Project Structure
 
@@ -123,6 +132,7 @@ src/
 - **State Management:** React Hooks
 - **Mock Backend:** json-server
 - **Code Quality:** ESLint
+- **HTTP Client:** Axios
 
 ## Features
 
@@ -149,7 +159,3 @@ If ports are in use, you can change them or stop conflicting processes.
 ### Module Not Found Errors
 
 Run `npm install` again to ensure all dependencies are properly installed.
-
-## Contributing
-
-Feel free to fork and submit pull requests for improvements!
